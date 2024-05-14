@@ -9,10 +9,10 @@ from langchain.prompts import PromptTemplate
 import streamlit as st
 from pinecone import Pinecone
 
-pc = Pinecone(api_key="950b50af-bfe0-48d5-bd99-d3e0ea6c1eb2")
+pc = Pinecone(api_key=st.secrets["pinecone_api_key"])
 index = pc.Index("chatgpt-schilderhimmel")
 
-os.environ["OPENAI_API_KEY"] = "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"
+os.environ["OPENAI_API_KEY"] = st.secrets["openai_api_key"]
 
 client = OpenAI()
 
