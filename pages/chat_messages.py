@@ -2,7 +2,7 @@ import streamlit as st
 import pymongo
 
 # Replace these values with your MongoDB connection string and database name
-mongo_uri = "mongodb+srv://ismalinggazein:h6Qzd3n2SAts17Xi@cluster0.dhar9n2.mongodb.net/?retryWrites=true&w=majority"
+mongo_uri = st.secrets["mongo_uri"]
 database_name = "chatgpt-schilderhimmel"
 
 # Connect to MongoDB
