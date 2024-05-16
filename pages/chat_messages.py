@@ -14,7 +14,7 @@ collection_name = "chat-messages"
 collection = database[collection_name]
 
 # Retrieve all documents from the collection
-all_messages = collection.find()
+all_messages = collection.find().sort("datetime", pymongo.DESCENDING)
 
 st.title("Chat Messages")
 

@@ -141,7 +141,7 @@ if search:
     text_context = matches['matches'][0]['metadata']['text']
 
     # Build prompt
-    template = """Sie sind ein hilfreicher Assistent. Benutzen Sie die folgenden Kontextinformationen, um die Frage am Ende zu beantworten. Wenn Sie die Antwort nicht kennen, sagen Sie einfach, dass Sie es nicht wissen, und versuchen Sie nicht, eine Antwort zu erfinden. Antwort auf Deutsch. Antworten Sie mit einer URL, wenn im Kontext. Geben Sie im Chat niemals persönliche Antworten.
+    template = """Sie sind ein hilfreicher Assistent. Benutzen Sie die folgenden Kontextinformationen, um die Frage am Ende zu beantworten. Wenn Sie die Antwort nicht kennen, sagen Sie einfach, dass Sie es nicht wissen, und versuchen Sie nicht, eine Antwort zu erfinden. Antwort auf Deutsch. Antworten Sie mit einer URL, wenn im Kontext. Geben Sie im Chat niemals persönliche Antworten. Wenn der Link nicht gefunden wird, nur antworten: Tut mir leid, ich habe keine Ergebnisse auf SCHILDER HIMMEL gefunden.
     {context}
     Frage: {question}
     Hilfreiche Antwort:"""
