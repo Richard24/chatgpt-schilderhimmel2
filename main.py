@@ -58,7 +58,7 @@ def vector_store(vector, metadata):
 def search_vector(vector):
     result = index.query(
         vector=vector,
-        top_k=1,
+        top_k=3,
         include_metadata=True
 
     )
@@ -138,17 +138,17 @@ if search:
     
     # print(matches)
 
-    text_context = matches['matches'][0]['metadata']['text']
+    text_context = matches['matches'][0]['metadata']['text'] + matches['matches'][1]['metadata']['text'] + matches['matches'][2]['metadata']['text']
 
     # Build prompt
-    template = """Sie sind ein hilfreicher Assistent. Benutzen Sie die folgenden Kontextinformationen, um die Frage am Ende zu beantworten. Wenn Sie die Antwort nicht kennen, sagen Sie einfach, dass Sie es nicht wissen, und versuchen Sie nicht, eine Antwort zu erfinden. Antwort auf Deutsch. Antworten Sie mit einer URL, wenn im Kontext. Geben Sie im Chat niemals persönliche Antworten. Wenn der Link nicht gefunden wird, nur antworten: Tut mir leid, ich habe keine Ergebnisse auf SCHILDER HIMMEL gefunden.
+    template = """Sie sind ein hilfreicher Assistent. Benutzen Sie die folgenden Kontextinformationen, um die Frage am Ende zu beantworten. Wenn Sie die Antwort nicht kennen, sagen Sie einfach, dass Sie es nicht wissen, und versuchen Sie nicht, eine Antwort zu erfinden. Antwort auf Deutsch. Antworten Sie mit einer URL, falls im Kontext. Geben Sie im Chat niemals persönliche Antworten. Wenn die URL im Kontext nicht von der Domain schildhimmel.de stammt, antworten Sie einfach: Tut mir leid, ich habe keine Ergebnisse auf SCHILDER HIMMEL gefunden.
     {context}
     Frage: {question}
     Hilfreiche Antwort:"""
 
     prompt_template = PromptTemplate.from_template(template)
 
-    llm = ChatOpenAI(temperature=0)
+    llm = ChatOpenAI(temperature=0, model='gpt-4')
 
     prompt = prompt_template.format(
         context=text_context,
