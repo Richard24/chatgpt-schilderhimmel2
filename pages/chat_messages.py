@@ -32,6 +32,9 @@ try:
         db.execute("SELECT * FROM `chat-messages` ORDER BY `datetime` DESC")
         rows = db.fetchall()
         df = pd.DataFrame(rows, columns=[i[0] for i in db.description])
+        
+        st.title("Chat Messages")
+        
         st.dataframe(df, hide_index=True)
         
 except Error as e:
