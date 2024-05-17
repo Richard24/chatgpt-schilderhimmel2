@@ -19,7 +19,7 @@ try:
         ssh_username='schwabkunststoff1', ssh_password=st.secrets["ssh_password"],
         remote_bind_address=('schwabkunststoff1.mysql.pythonanywhere-services.com', 3306)
     ) as tunnel:
-        st.write("SSH Tunnel established")
+        # st.write("SSH Tunnel established")
         
         connection = pymysql.connect(
             user='schwabkunststoff',
