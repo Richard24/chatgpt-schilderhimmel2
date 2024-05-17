@@ -4,7 +4,7 @@ import mysql.connector
 from mysql.connector import Error
 import pandas as pd
 import sshtunnel
-import MySQLdb
+import pymysql.cursors
 
 
 # Set SSH and Tunnel timeout
@@ -21,7 +21,7 @@ try:
     ) as tunnel:
         st.write("SSH Tunnel established")
         
-        connection = MySQLdb.connect(
+        connection = pymysql.connect(
             user='schwabkunststoff',
             passwd=st.secrets["ssh_password"],
             host='127.0.0.1', port=tunnel.local_bind_port,
