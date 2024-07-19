@@ -71,7 +71,7 @@ def filter_vector(vector, source):
         filter={
             "source": source
         },
-        top_k=100,
+        top_k=1000,
         include_metadata=True
     )
     return results
