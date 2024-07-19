@@ -77,7 +77,7 @@ def filter_vector(vector, source):
     return results
 
 
-def delete_vector(file_name):
+def delete_vector(ids):
     index.delete(ids=[ids])
     print("delete success")
 
@@ -110,7 +110,7 @@ with st.form("my_form", clear_on_submit=True):
         ids = [item.id for item in result['matches']]
 
         if ids:
-            delete_vector(file_name)
+            delete_vector(ids)
 
         # store vector store
         for split in data_splits:
