@@ -8,6 +8,12 @@ from langchain_community.chat_models import ChatOpenAI
 from langchain.prompts import PromptTemplate
 import streamlit as st
 from pinecone import Pinecone
+from langchain_text_splitters import CharacterTextSplitter
+from langchain_pinecone import PineconeVectorStore
+from langchain_openai import OpenAIEmbeddings
+
+
+
 
 pc = Pinecone(api_key=st.secrets["pinecone_api_key"])
 index = pc.Index("chatgpt-schilderhimmel")
@@ -101,7 +107,17 @@ with st.form("my_form", clear_on_submit=True):
 
         data_splits = text_splitter.create_documents([documents])
 
-        # st.write(data_splits)
+        st.write(data_splits)
+        
+        embeddings = OpenAIEmbeddings()
+
+        
+        vectorstore_from_docs = PineconeVectorStore.from_documents(
+            data_splits,
+            index_name="chatgpt-schilderhimmel",
+            embedding=embeddings
+        )
+        exit(0)
 
         text = " "
         text_embed = embedding(text)
