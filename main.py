@@ -114,14 +114,14 @@ with st.form("my_form", clear_on_submit=True):
 
         # st.write(formatted_chunks)
 
-        # text = " "
-        # text_embed = embedding(text)
+        text = " "
+        text_embed = embedding(text)
 
-        # result = filter_vector(text_embed, file_name)
-        # ids = [item.id for item in result['matches']]
+        result = filter_vector(text_embed, file_name)
+        ids = [item.id for item in result['matches']]
 
-        # if ids:
-        #     delete_vector(ids)
+        if ids:
+            delete_vector(ids)
 
         # store vector store
         for split in formatted_chunks:
