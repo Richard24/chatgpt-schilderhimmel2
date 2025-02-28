@@ -8,6 +8,8 @@ from langchain_community.chat_models import ChatOpenAI
 from langchain.prompts import PromptTemplate
 import streamlit as st
 from pinecone import Pinecone
+from langchain.text_splitter import CharacterTextSplitter
+
 
 pc = Pinecone(api_key=st.secrets["pinecone_api_key"])
 index = pc.Index("chatgpt-schilderhimmel")
@@ -91,37 +93,46 @@ with st.form("my_form", clear_on_submit=True):
         file_name = uploaded_file.name
         documents = uploaded_file.read().decode(errors='ignore')
 
-        text_splitter = RecursiveCharacterTextSplitter(
-            # Set a really small chunk size, just to show.
-            chunk_size=1000,
-            chunk_overlap=20,
-            length_function=len,
-            is_separator_regex=False,
+        # text_splitter = RecursiveCharacterTextSplitter(
+        #     chunk_size=1000,  # Adjust based on your token limits
+        #     chunk_overlap=100,  # Helps maintain context across chunks
+        #     separators=["\n\n", "\n", " "],  # Prioritize structured breaks
+        # )
+        
+        # data_splits = text_splitter.create_documents([documents])
+        
+        text_splitter = CharacterTextSplitter(
+            separator="Question:",  # Split at each "Question:"
+            chunk_size=1000,  # Adjust based on your model's token limit
+            chunk_overlap=0,  # No overlap needed since each Q&A is independent
         )
 
-        data_splits = text_splitter.create_documents([documents])
+        chunks = text_splitter.split_text(documents)
 
-        # st.write(data_splits)
+        
+        formatted_chunks = [("Question:" + chunk).strip() for chunk in chunks if chunk.strip()]
 
-        text = " "
-        text_embed = embedding(text)
+        # st.write(formatted_chunks)
 
-        result = filter_vector(text_embed, file_name)
-        ids = [item.id for item in result['matches']]
+        # text = " "
+        # text_embed = embedding(text)
 
-        if ids:
-            delete_vector(ids)
+        # result = filter_vector(text_embed, file_name)
+        # ids = [item.id for item in result['matches']]
+
+        # if ids:
+        #     delete_vector(ids)
 
         # store vector store
-        for split in data_splits:
-            text = split.page_content
+        for split in formatted_chunks:
+            text = split
 
             metadata = {
                 'source': file_name,
                 'text': text
             }
 
-            vector = embedding(split.page_content)
+            vector = embedding(text)
 
             vector_store(vector, metadata)
 
@@ -136,7 +147,7 @@ if search:
 
     matches = search_vector(question_embedding)
     
-    # print(matches)
+    st.write(matches)
 
     text_context = matches['matches'][0]['metadata']['text'] + matches['matches'][1]['metadata']['text'] + matches['matches'][2]['metadata']['text']
 
@@ -158,4 +169,5 @@ if search:
     response = llm.predict(
         text=prompt
     )
+    
     st.info(response)
