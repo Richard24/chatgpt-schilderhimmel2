@@ -152,8 +152,15 @@ if search:
     text_context = matches['matches'][0]['metadata']['text'] + matches['matches'][1]['metadata']['text'] + matches['matches'][2]['metadata']['text']
 
     # Build prompt
-    template = """Sie sind ein hilfreicher Assistent. Benutzen Sie die folgenden Kontextinformationen, um die Frage am Ende zu beantworten. Wenn Sie die Antwort nicht kennen, sagen Sie einfach, dass Sie es nicht wissen, und versuchen Sie nicht, eine Antwort zu erfinden. Antwort auf Deutsch. Antworten Sie mit einer URL, falls im Kontext. Geben Sie im Chat niemals persönliche Antworten. Wenn die URL im Kontext nicht von der Domain schildhimmel.de stammt, antworten Sie einfach: Tut mir leid, ich habe keine Ergebnisse auf SCHILDER HIMMEL gefunden.
-    {context}
+    template = """Sie sind ein hilfreicher Assistent.
+    Benutzen Sie die folgenden Kontextinformationen, um die Frage am Ende zu beantworten.
+    Wenn Sie die Antwort nicht kennen, sagen Sie einfach: 'Leider kann ich Ihre Frage derzeit nicht beantworten. Bitte teilen Sie uns noch Ihre E-Mail Adresse mit, damit wir gleich Kontakt mit Ihnen aufnehmen können. Alternativ können Sie uns anrufen: 09604-5309873.' und versuchen Sie nicht, eine Antwort zu erfinden.
+    Antwort auf Deutsch. Antworten Sie mit einer URL, falls im Kontext.
+    Geben Sie im Chat niemals persönliche Antworten.
+    HTML-Tag einschließen, falls im Kontext vorhanden.
+    Wenn die Frage ein '@' enthält, antworte mit "Vielen Dank wir werden Sie schnellstmöglich per Mail kontaktieren. Bitte teilen Sie uns dazu Ihre Mail Adresse mit.".
+
+    Kontext: {context}
     Frage: {question}
     Hilfreiche Antwort:"""
 
